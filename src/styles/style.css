@@ -1,0 +1,29 @@
+.cardStyle {
+    padding: 15px;
+    box-shadow: 1px 1px 10px #c5c5c5;
+}
+
+.customBtnStyle {
+    height: 50px;
+    width: 100px;
+    font-weight: bold;
+}
+
+.customBtnStyle1 {
+    height: 50px;
+    width: 150px;
+    font-weight: bold;
+    color: white;
+}
+
+.imgDiv {
+    height: 200px;
+    width: 225px;
+    box-shadow: 1px 1px 15px #888888;
+}
+
+.imgBoxStyle {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+}
