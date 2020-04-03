@@ -22,7 +22,6 @@ class Index extends Component {
 
     getJobs = async () => {
         const res = await getJobs();
-        console.log(":;;;;;;;;;; res ", res)
 
         if (res.data.status === 200) {
             await this.setState({
@@ -47,8 +46,6 @@ class Index extends Component {
 
     render() {
         const { data, showJob, selectedJob } = this.state;
-
-        console.log(";;;;;;;;;;;;;; state data ", data)
 
         return (
             <Fragment>
@@ -92,13 +89,7 @@ class Index extends Component {
                             </Row>
                         </div>
                     ))}
-                    {/* {data.length === 0 &&
-                        <Row>
-                            <Col style={{ padding: 100 }}>
-                                <h2>No Data To Display</h2>
-                            </Col>
-                        </Row>
-                    } */}
+                    
                     {showJob && selectedJob &&
                         <Fragment>
                             <ShowJob job={selectedJob} />
