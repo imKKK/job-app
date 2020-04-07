@@ -3,6 +3,7 @@ import { Row, Col, Container, Button } from 'react-bootstrap';
 import { getJobs } from '../../services/jobservice';
 import image from "../../assets/images/image-frame.jpg";
 import ShowJob from "./showJob";
+import { connect } from "react-redux";
 
 
 class Index extends Component {
@@ -12,7 +13,8 @@ class Index extends Component {
             isTrue: true,
             showJob: false,
             data: [],
-            selectedJob: ""
+            selectedJob: "",
+            searchString: ""
         }
     }
 
@@ -20,18 +22,24 @@ class Index extends Component {
         await this.getJobs();
     }
 
-    getJobs = async () => {
-        const res = await getJobs();
+    componentDidUpdate = async (prevProps) => {
+        if (prevProps.state.search.content !== this.props.state.search.content) {
+            await this.getJobs(this.props.state.search.content);
+        }
+    }
+
+    getJobs = async (searchString) => {
+        const res = await getJobs(searchString);
 
         if (res.data.status === 200) {
             await this.setState({
-                data: res.data.data
+                data: res.data.data,
+                searchString: searchString
             })
         }
     }
 
     showJob = (job) => {
-        console.log(job)
         this.setState({
             selectedJob: job,
             showJob: true
@@ -45,7 +53,7 @@ class Index extends Component {
     }
 
     render() {
-        const { data, showJob, selectedJob } = this.state;
+        const { data, showJob, selectedJob, searchString } = this.state;
 
         return (
             <Fragment>
@@ -53,7 +61,7 @@ class Index extends Component {
                     <Row>
                         {!showJob &&
                             <Col className="text-left pt-4 pb-2">
-                                <h4>| Job List</h4>
+                                <h5>| Showing '{searchString ? searchString : "all"}' Jobs</h5>
                             </Col>
                         }
                         {showJob &&
@@ -89,14 +97,28 @@ class Index extends Component {
                             </Row>
                         </div>
                     ))}
-                    
                     {showJob && selectedJob &&
                         <Fragment>
                             <ShowJob job={selectedJob} />
                         </Fragment>
                     }
+                    {!showJob && data.length === 0 &&
+                        <Row>
+                            <Col>No data to display for '{searchString}'</Col>
+                        </Row>
+                    }
                 </Container>
             </Fragment>
         )
     }
-} export default Index;
+}
+
+const mapStateToProps = (state, ownProps) => {
+    return ({
+        state: state
+    })
+}
+
+export default connect(
+    mapStateToProps
+)(Index);
