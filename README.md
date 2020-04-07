@@ -9,6 +9,8 @@
  ```
  react-bootstrap
  axios
+ redux
+ react-redux
  ```
  
  ###### To Run the App
